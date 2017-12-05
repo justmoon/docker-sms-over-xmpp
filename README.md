@@ -18,6 +18,7 @@ $ docker run \
 -e TWILIO_KEY_SID="SK..." \
 -e TWILIO_KEY_SECRET="..." \
 -e USERS='[{"username":"john@example.com","number":"+13075551212"}]' \
+-p 9677:9677 \
 --name my-sms-gateway \
 -d \
 justmoon/sms-over-xmpp
