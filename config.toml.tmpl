@@ -1,0 +1,18 @@
+# define how to connect to your XMPP server
+[xmpp]
+host = "{{ .Env.XMPP_HOST }}"
+port = {{ default .Env.XMPP_PORT "5347" }}
+name = "{{ .Env.XMPP_NAME }}"
+secret = "{{ .Env.XMPP_SECRET }}"
+
+# Twilio API details
+[twilio]
+account-sid = "{{ .Env.TWILIO_ACCOUNT_SID }}"
+key-sid = "{{ .Env.TWILIO_KEY_SID }}"
+key-secret = "{{ .Env.TWILIO_KEY_SECRET }}"
+
+# map XMPP usernames to E.164 phone numbers
+[users]
+{{ range $index, $value := jsonQuery .Env.USERS }}
+"{{ $value.username }}" = "{{ $value.number }}"
+{{end}}
