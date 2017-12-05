@@ -1,6 +1,9 @@
 # Build environment
 FROM golang:latest AS build-env
-RUN go get github.com/mndrix/sms-over-xmpp/...
+RUN git clone https://github.com/mndrix/sms-over-xmpp.git /go/src
+WORKDIR /go/src
+RUN go-wrapper download ./cmd/sms-over-xmpp
+RUN CGO_ENABLED=0 go install -a -ldflags '-s' -installsuffix cgo ./cmd/sms-over-xmpp
 
 # Actual image
 FROM alpine
