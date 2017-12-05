@@ -1,3 +1,8 @@
+# define how sms-over-xmpp listens to incoming connections
+[http]
+host = "{{ default .Env.SMS_HOST "0.0.0.0" }}"
+port = {{ default .Env.SMS_PORT "9677" }}
+
 # define how to connect to your XMPP server
 [xmpp]
 host = "{{ .Env.XMPP_HOST }}"
@@ -13,6 +18,8 @@ key-secret = "{{ .Env.TWILIO_KEY_SECRET }}"
 
 # map XMPP usernames to E.164 phone numbers
 [users]
-{{ range $index, $value := jsonQuery .Env.USERS }}
+{{ with default .Env.Users "[]" }}
+{{ range $index, $value := jsonQuery . "." }}
 "{{ $value.username }}" = "{{ $value.number }}"
+{{end}}
 {{end}}
